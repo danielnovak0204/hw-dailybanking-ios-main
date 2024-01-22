@@ -18,6 +18,6 @@ struct MovieVM: Identifiable {
     let genres: String
     let overView: String
     let image: Image
-    let popularity: Float
+    let popularity: Double
     var isMarked: Bool
 }

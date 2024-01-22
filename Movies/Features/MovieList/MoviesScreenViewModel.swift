@@ -7,6 +7,11 @@
 
 import Foundation
 
-class MoviesScreenViewModel: ObservableObject, MoviesScreenViewModelProtocol {
-    @Published var movies: [MovieVM] = []
+class MoviesScreenViewModel: MoviesScreenViewModelProtocol {
+    @Published var movies = [MovieVM]()
+    private let getMoviesUseCase: GetMoviesUseCase
+    
+    init(getMoviesUseCase: GetMoviesUseCase) {
+        self.getMoviesUseCase = getMoviesUseCase
+    }
 }
