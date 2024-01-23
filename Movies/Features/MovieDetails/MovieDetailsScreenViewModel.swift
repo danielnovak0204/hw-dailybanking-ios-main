@@ -7,12 +7,14 @@
 
 import Foundation
 
-class MovieDetailsScreenViewModel: ObservableObject, MovieDetailsScreenViewModelProtocol {
+class MovieDetailsScreenViewModel: MovieDetailsScreenViewModelProtocol {
     @Published var movie: MovieVM
 
     init(movie: MovieVM) {
         self.movie = movie
     }
 
-    func markMovie() {}
+    func markMovie() { 
+        movie.isMarked.toggle()
+    }
 }

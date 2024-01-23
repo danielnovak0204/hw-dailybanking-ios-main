@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MoviesApiDataSourceImplementation: MoviesDataSource {
+class MoviesApiDataSourceImplementation: MoviesApiDataSource {
     private enum Constants {
         static let apiKey = APIkey
         static let apiBaseUrl = "https://api.themoviedb.org/3"
