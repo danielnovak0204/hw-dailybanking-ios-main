@@ -8,13 +8,20 @@
 import Foundation
 
 class MovieDetailsScreenViewModel: MovieDetailsScreenViewModelProtocol {
-    @Published var movie: MovieVM
+    @Published private(set) var movie: MovieVM
+    private let addFavouriteMovieUseCase = Resolver.shared.resolve(AddFavouriteMovieUseCase.self)
+    private let removeFavouriteMovieUseCase = Resolver.shared.resolve(RemoveFavouriteMovieUseCase.self)
 
     init(movie: MovieVM) {
         self.movie = movie
     }
 
-    func markMovie() { 
+    func markMovie() {
+        if movie.isMarked {
+            removeFavouriteMovieUseCase.removeFavouriteMovie(id: movie.id)
+        } else {
+            addFavouriteMovieUseCase.addFavouriteMovie(id: movie.id)
+        }
         movie.isMarked.toggle()
     }
 }

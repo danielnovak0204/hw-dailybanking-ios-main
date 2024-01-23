@@ -13,6 +13,7 @@ protocol MoviesScreenViewModelProtocol: ObservableObject {
     var errorMessage: String { get }
     
     func fetchMovies() async
+    func updateFavouriteMovies()
 }
 
 struct MoviesScreen<ViewModel: MoviesScreenViewModelProtocol>: View {
@@ -29,7 +30,7 @@ struct MoviesScreen<ViewModel: MoviesScreenViewModelProtocol>: View {
                 .listRowInsets(EdgeInsets())
             }
             .navigationTitle("Movies")
-            .task {
+            .oneTimeTask {
                 await viewModel.fetchMovies()
             }
             .alert("Error", isPresented: $viewModel.isFailed) {
@@ -47,7 +48,12 @@ struct MoviesScreen<ViewModel: MoviesScreenViewModelProtocol>: View {
     }
 
     func destinationView(using movie: MovieVM) -> some View {
-        MovieDetailsScreen(viewModel: MovieDetailsScreenViewModel(movie: movie))
+        MovieDetailsScreen(
+            viewModel: MovieDetailsScreenViewModel(movie: movie),
+            onFavouriteChange: {
+                viewModel.updateFavouriteMovies()
+            }
+        )
     }
 }
 

@@ -23,7 +23,7 @@ class MoviesRepositoryImplementation: MoviesRepository {
                 genreIds: movie.genreIds,
                 overview: movie.overview,
                 posterPath: movie.posterPath,
-                popularity: movie.popularity
+                voteAverage: movie.voteAverage
             )
         }
     }

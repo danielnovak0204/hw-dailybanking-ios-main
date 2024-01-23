@@ -34,7 +34,7 @@ class GetMoviesUseCaseImplementation: GetMoviesUseCase {
                 genres: mapGenres(results.genres, by: movie.genreIds),
                 overView: movie.overview,
                 image: mapPosterPath(movie.posterPath, by: results.imagesConfiguration),
-                popularity: movie.popularity,
+                popularity: movie.voteAverage,
                 isMarked: false
             )
         }
