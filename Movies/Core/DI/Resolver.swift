@@ -19,15 +19,8 @@ final class Resolver {
     private func ensureContainer() {
         if container == nil {
             container = Container()
-            container.register(MoviesApiDataSource.self) { _ in
-                MoviesApiDataSourceImplementation()
-            }
-            container.register(MoviesRepository.self) {
-                MoviesRepositoryImplementation(apiDataSource: $0.resolve(MoviesApiDataSource.self)!)
-            }
-            container.register(GetMoviesUseCase.self) {
-                GetMoviesUseCaseImplementation(repository: $0.resolve(MoviesRepository.self)!)
-            }
+                .withDataComponents()
+                .withDomainComponents()
         }
     }
 }

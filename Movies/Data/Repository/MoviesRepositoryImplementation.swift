@@ -7,9 +7,11 @@
 
 class MoviesRepositoryImplementation: MoviesRepository {
     private let apiDataSource: MoviesApiDataSource
+    private let localDataSource: MoviesLocalDataSource
     
-    init(apiDataSource: MoviesApiDataSource) {
+    init(apiDataSource: MoviesApiDataSource, localDataSource: MoviesLocalDataSource) {
         self.apiDataSource = apiDataSource
+        self.localDataSource = localDataSource
     }
     
     func getMovies() async throws -> [MovieEntity] {
@@ -39,5 +41,17 @@ class MoviesRepositoryImplementation: MoviesRepository {
             baseUrl: imagesConfiguration.baseUrl,
             posterSizes: imagesConfiguration.posterSizes
         )
+    }
+    
+    func getFavouriteMovies() -> [String] {
+        localDataSource.getFavouriteMovies()
+    }
+    
+    func addFavouriteMovie(id: String) {
+        localDataSource.addFavouriteMovie(id: id)
+    }
+    
+    func removeFavouriteMovie(id: String) {
+        localDataSource.removeFavouriteMovie(id: id)
     }
 }
