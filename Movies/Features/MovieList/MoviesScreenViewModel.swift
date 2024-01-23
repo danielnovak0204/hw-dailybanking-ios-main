@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class MoviesScreenViewModel: MoviesScreenViewModelProtocol {
     private enum Constants {
         static let configurationErrorMessage = "Configuration error"
@@ -18,7 +19,7 @@ class MoviesScreenViewModel: MoviesScreenViewModelProtocol {
     
     @Published private(set) var movies = [MovieVM]()
     @Published var isFailed = false
-    private(set) var errorMessage = ""
+    @Published var errorMessage = ""
     private let getMoviesUseCase = Resolver.shared.resolve(GetMoviesUseCase.self)
     private let getFavouriteMoviesUseCase = Resolver.shared.resolve(GetFavouriteMoviesUseCase.self)
     
