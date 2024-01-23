@@ -25,7 +25,7 @@ class GetMoviesUseCaseImplementation: GetMoviesUseCase {
         let results = try await (movies: movies, genres: genres, imagesConfiguration: imagesConfiguration)
         return results.movies.map { movie in
             MovieVM(
-                id: movie.id,
+                id: String(movie.id),
                 title: movie.title,
                 genres: mapGenres(results.genres, by: movie.genreIds),
                 overView: movie.overview,

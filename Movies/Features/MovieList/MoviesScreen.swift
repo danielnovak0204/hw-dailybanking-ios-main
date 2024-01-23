@@ -9,6 +9,10 @@ import SwiftUI
 
 protocol MoviesScreenViewModelProtocol: ObservableObject {
     var movies: [MovieVM] { get }
+    var isFailed: Bool { get set }
+    var errorMessage: String { get }
+    
+    func fetchMovies() async
 }
 
 struct MoviesScreen<ViewModel: MoviesScreenViewModelProtocol>: View {
@@ -25,6 +29,19 @@ struct MoviesScreen<ViewModel: MoviesScreenViewModelProtocol>: View {
                 .listRowInsets(EdgeInsets())
             }
             .navigationTitle("Movies")
+            .task {
+                await viewModel.fetchMovies()
+            }
+            .alert("Error", isPresented: $viewModel.isFailed) {
+                Button("Retry") {
+                    Task {
+                        await viewModel.fetchMovies()
+                    }
+                }
+            } message: {
+                Text(viewModel.errorMessage)
+            }
+
         }
         .navigationViewStyle(.stack)
     }

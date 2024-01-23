@@ -6,14 +6,14 @@
 //
 
 class MoviesRepositoryImplementation: MoviesRepository {
-    private let dataSource: MoviesDataSource
+    private let apiDataSource: MoviesApiDataSource
     
-    init(dataSource: MoviesDataSource) {
-        self.dataSource = dataSource
+    init(apiDataSource: MoviesApiDataSource) {
+        self.apiDataSource = apiDataSource
     }
     
     func getMovies() async throws -> [MovieEntity] {
-        let movies = try await dataSource.getMovies()
+        let movies = try await apiDataSource.getMovies()
         return movies.map { movie in
             MovieEntity(
                 id: movie.id,
@@ -27,14 +27,14 @@ class MoviesRepositoryImplementation: MoviesRepository {
     }
     
     func getGenres() async throws -> [GenreEntity] {
-        let genres = try await dataSource.getGenres()
+        let genres = try await apiDataSource.getGenres()
         return genres.map { genre in
             GenreEntity(id: genre.id, name: genre.name)
         }
     }
     
     func getImagesConfiguration() async throws -> ImagesConfigurationEntity {
-        let imagesConfiguration = try await dataSource.getImagesConfiguration()
+        let imagesConfiguration = try await apiDataSource.getImagesConfiguration()
         return ImagesConfigurationEntity(
             baseUrl: imagesConfiguration.baseUrl,
             posterSizes: imagesConfiguration.posterSizes

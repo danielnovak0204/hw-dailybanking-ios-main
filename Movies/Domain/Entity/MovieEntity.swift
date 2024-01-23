@@ -6,7 +6,7 @@
 //
 
 struct MovieEntity {
-    let id: String
+    let id: Int
     let title: String
     let genreIds: [Int]
     let overview: String
