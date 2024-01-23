@@ -11,5 +11,5 @@ struct MovieEntity {
     let genreIds: [Int]
     let overview: String
     let posterPath: String
-    let popularity: Double
+    let voteAverage: Double
 }

@@ -8,11 +8,12 @@
 import SwiftUI
 
 protocol MoviesScreenViewModelProtocol: ObservableObject {
-    var movies: [MovieVM] { get }
-    var isFailed: Bool { get set }
-    var errorMessage: String { get }
+    nonisolated var movies: [MovieVM] { get }
+    nonisolated var isFailed: Bool { get set }
+    nonisolated var errorMessage: String { get }
     
     func fetchMovies() async
+    nonisolated func updateFavouriteMovies()
 }
 
 struct MoviesScreen<ViewModel: MoviesScreenViewModelProtocol>: View {
@@ -29,7 +30,7 @@ struct MoviesScreen<ViewModel: MoviesScreenViewModelProtocol>: View {
                 .listRowInsets(EdgeInsets())
             }
             .navigationTitle("Movies")
-            .task {
+            .oneTimeTask {
                 await viewModel.fetchMovies()
             }
             .alert("Error", isPresented: $viewModel.isFailed) {
@@ -47,7 +48,12 @@ struct MoviesScreen<ViewModel: MoviesScreenViewModelProtocol>: View {
     }
 
     func destinationView(using movie: MovieVM) -> some View {
-        MovieDetailsScreen(viewModel: MovieDetailsScreenViewModel(movie: movie))
+        MovieDetailsScreen(
+            viewModel: MovieDetailsScreenViewModel(movie: movie),
+            onFavouriteChange: {
+                viewModel.updateFavouriteMovies()
+            }
+        )
     }
 }
 

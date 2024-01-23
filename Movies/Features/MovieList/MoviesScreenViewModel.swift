@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class MoviesScreenViewModel: MoviesScreenViewModelProtocol {
     private enum Constants {
         static let configurationErrorMessage = "Configuration error"
@@ -18,14 +19,16 @@ class MoviesScreenViewModel: MoviesScreenViewModelProtocol {
     
     @Published private(set) var movies = [MovieVM]()
     @Published var isFailed = false
-    private(set) var errorMessage = ""
+    @Published var errorMessage = ""
     private let getMoviesUseCase = Resolver.shared.resolve(GetMoviesUseCase.self)
+    private let getFavouriteMoviesUseCase = Resolver.shared.resolve(GetFavouriteMoviesUseCase.self)
     
     func fetchMovies() async {
         isFailed = false
         errorMessage = ""
         do {
             movies = try await getMoviesUseCase.getMovies()
+            updateFavouriteMovies()
         } catch {
             switch error {
             case ApiError.configuration: errorMessage = Constants.configurationErrorMessage
@@ -36,5 +39,14 @@ class MoviesScreenViewModel: MoviesScreenViewModelProtocol {
             }
             isFailed = true
         }
+    }
+    
+    func updateFavouriteMovies() {
+        let favouriteMovieIds = getFavouriteMoviesUseCase.getFavouriteMovies()
+        var moviesList = movies
+        for index in 0..<moviesList.count {
+            moviesList[index].isMarked = favouriteMovieIds.contains(moviesList[index].id)
+        }
+        movies = moviesList
     }
 }

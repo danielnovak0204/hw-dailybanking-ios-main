@@ -16,6 +16,7 @@ protocol MovieDetailsScreenViewModelProtocol: ObservableObject {
 
 struct MovieDetailsScreen<ViewModel: MovieDetailsScreenViewModelProtocol>: View {
     @ObservedObject var viewModel: ViewModel
+    let onFavouriteChange: () -> Void
 
     var body: some View {
         ScrollView {
@@ -45,6 +46,9 @@ struct MovieDetailsScreen<ViewModel: MovieDetailsScreenViewModelProtocol>: View 
                 .background(Material.regularMaterial)
                 .cornerRadius(8)
                 .shadow(radius: 24)
+                .onChange(of: viewModel.movie.isMarked) { _ in
+                    onFavouriteChange()
+                }
 
                 Text("Overview")
                     .font(.title)
@@ -63,10 +67,16 @@ struct MovieDetailsScreen<ViewModel: MovieDetailsScreenViewModelProtocol>: View 
 struct MovieDetailsScreem_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            MovieDetailsScreen(viewModel: MockMovieDetailsViewModel())
-                .preferredColorScheme(.light)
-            MovieDetailsScreen(viewModel: MockMovieDetailsViewModel())
-                .preferredColorScheme(.dark)
+            MovieDetailsScreen(
+                viewModel: MockMovieDetailsViewModel(),
+                onFavouriteChange: { }
+            )
+            .preferredColorScheme(.light)
+            MovieDetailsScreen(
+                viewModel: MockMovieDetailsViewModel(),
+                onFavouriteChange: { }
+            )
+            .preferredColorScheme(.dark)
         }
     }
 }

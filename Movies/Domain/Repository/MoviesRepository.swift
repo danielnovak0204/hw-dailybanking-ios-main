@@ -9,4 +9,7 @@ protocol MoviesRepository {
     func getMovies() async throws -> [MovieEntity]
     func getGenres() async throws -> [GenreEntity]
     func getImagesConfiguration() async throws -> ImagesConfigurationEntity
+    func getFavouriteMovies() -> [String]
+    func addFavouriteMovie(id: String)
+    func removeFavouriteMovie(id: String)
 }

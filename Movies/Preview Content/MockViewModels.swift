@@ -13,6 +13,7 @@ class MockViewModel: MoviesScreenViewModelProtocol {
     var errorMessage = ""
     
     func fetchMovies() async { }
+    func updateFavouriteMovies() { }
 }
 
 class MockMovieDetailsViewModel: MovieDetailsScreenViewModelProtocol {
